@@ -24,6 +24,8 @@ public class Pinging extends Thread {
 			msg[0] = ip;
 			br = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			String lineInput = null;
+			
+			
 			while ((lineInput = br.readLine()) != null) {
 				if (lineInput.indexOf("[") >= 0) {
 					msg[3] = lineInput.substring(5, lineInput.indexOf("[") - 1);
@@ -40,10 +42,11 @@ public class Pinging extends Thread {
 				}
 				
 			}
+			
+			
 			if (msg[1] == null) msg[1] = "[n/a]";
 			if (msg[2] == null) msg[2] = "[n/s]";
 			if (msg[3] == null) msg[3] = "[n/s]";
-			if (msg[4] == null) msg[4] = "[n/s]";
 		} catch (Exception e) {
 			// TODO: handle exception
 		} finally {

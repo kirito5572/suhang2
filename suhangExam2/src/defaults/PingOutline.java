@@ -41,6 +41,8 @@ public class PingOutline extends JFrame {
 	private Object[][] stats;
 	private int fixedIPStartlast;
 	private int fixedIPEndlast;
+	private int fixedIPStartrd;
+	private int fixedIPEndrd;
 
 	public PingOutline() {
 		super("Network Scanner");
@@ -283,10 +285,15 @@ public class PingOutline extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String tmp = null;
 				fixedIPStartlast = Integer
 						.parseInt(ipStartTF.getText().substring(ipStartTF.getText().lastIndexOf(".") + 1));
+				tmp = ipStartTF.getText().substring(0,ipStartTF.getText().lastIndexOf("."));
+				fixedIPStartrd = Integer.parseInt(tmp.substring(tmp.lastIndexOf(".") + 1));
+				tmp = ipEndTF.getText().substring(0,ipEndTF.getText().lastIndexOf("."));
+				fixedIPEndrd = Integer.parseInt(tmp.substring(tmp.lastIndexOf(".") + 1));
 				fixedIPEndlast = Integer.parseInt(ipEndTF.getText().substring(ipEndTF.getText().lastIndexOf(".") + 1));
-				System.out.println(fixedIPStartlast + "," + fixedIPEndlast);
+				System.out.println(tmp + "," + fixedIPStartrd + fixedIPStartlast + "," + fixedIPEndrd + fixedIPEndlast);
 				progressBar.setIndeterminate(true);
 				toolbar2.remove(startButton);
 				toolbar2.add(stopButton);
@@ -294,60 +301,81 @@ public class PingOutline extends JFrame {
 				jTable.repaint();
 				statusmainPanel.repaint();
 
+				//ping, TTL, Hostname Thread start
+				
 				new Thread(() -> {
-					Pinging[] pg = new Pinging[fixedIPEndlast];
-					for (int i = fixedIPStartlast; i < fixedIPEndlast; i++) {
-						Object[] msg = stats[i];
-						pg[i] = new Pinging(fixedIP + (i), msg);
-						pg[i].start();
-					}
-					while (Thread.activeCount() > 3) {
-						try {
-							Thread.sleep(200);
-							jTable.repaint();
-							threadStatusLabel.setText("Threads: " + (Thread.activeCount()-3));
-						} catch (InterruptedException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+					
+						Pinging[] pg = new Pinging[fixedIPEndlast];
+						for (int i = fixedIPStartlast; i < fixedIPEndlast; i++) {
+							Object[] msg = stats[i];
+							pg[i] = new Pinging(fixedIP +(i), msg);
+							pg[i].start();
 						}
-					}
-				for (int i = fixedIPStartlast; i < fixedIPEndlast; i++) {
-					if (stats[i][1] != "[n/a]" || stats[i][2] != "[n/s]" || stats[i][3] != "[n/s]") {
-						PortScanner ps = new PortScanner();
-						final ExecutorService es = Executors.newFixedThreadPool(200);
-						final int timeout = 200;
-						final List<Future<ScanResult>> futures = new ArrayList<>();
-						for (int port = 1; port <= 1024; port++) {
-							futures.add(ps.portIsOpen(es, fixedIP + i, port, timeout));
-						}
-						try {
-							es.awaitTermination(200L, TimeUnit.MICROSECONDS);
-						} catch (InterruptedException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						int openPorts = 0;
-						for (final Future<ScanResult> f : futures) {
+						while (Thread.activeCount() > 3) {
 							try {
-								if (f.get().isOpen()) {
-									openPorts++;
-									System.out.println(fixedIP + i + "," + f.get().getPort());
-								}
-							} catch (InterruptedException | ExecutionException e1) {
+								Thread.sleep(200);
+								jTable.repaint();
+								threadStatusLabel.setText("Threads: " + (Thread.activeCount()-3));
+							} catch (InterruptedException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
 						}
-					}
-				}
+					//Ports Thread start
+					new Thread(() -> {
+						for (int i = fixedIPStartlast; i < fixedIPEndlast; i++) {
+							if (stats[i][1] != "[n/a]" || stats[i][2] != "[n/s]" || stats[i][3] != "[n/s]") {
+								PortScanner ps = new PortScanner();
+								final ExecutorService es = Executors.newFixedThreadPool(500);
+								final int timeout = 200;
+								final List<Future<ScanResult>> futures = new ArrayList<>();
+								
+								for (int port = 1; port <= 1024; port++) {
+									futures.add(ps.portIsOpen(es, fixedIP + i, port, timeout));
+								}
+								try {
+									es.awaitTermination(200L, TimeUnit.MICROSECONDS);
+								} catch (InterruptedException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+							
+								int openPorts = 0;
+								for (final Future<ScanResult> f : futures) {
+									try {
+										if (f.get().isOpen()) {
+											openPorts++;
+											stats[i][4] = (stats[i][4] == null)?f.get().getPort(): (stats[i][4].toString() + "," +f.get().getPort());
+											jTable.repaint();
+										}
+									} catch (InterruptedException | ExecutionException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+								}
+							} else {
+								stats[i][4] = "[n/s]";
+								jTable.repaint();
+							}
+							if(stats[i][4] == null) {
+								stats[i][4] = "Nothing";
+							}
+						}
+					}).start();
+					
+					//Ports Thread end
+					
 				jTable.repaint();
-
+				
 				progressBar.setIndeterminate(false);
 				toolbar2.remove(stopButton);
 				toolbar2.add(startButton);
 				currentStatusLabel.setText("Ready");
 				jTable.repaint();
+				
 				}).start();
+				
+				//ping, TTL, Hostname Thread end	
 			}
 		});
 		stopButton.addActionListener(new ActionListener() {
