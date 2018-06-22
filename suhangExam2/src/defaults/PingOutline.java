@@ -284,7 +284,6 @@ public class PingOutline extends JFrame {
 				System.exit(0);
 			}
 		});
-
 		startButton.addActionListener(new ActionListener() {
 
 			@Override
