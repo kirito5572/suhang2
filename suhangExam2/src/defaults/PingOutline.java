@@ -1,5 +1,4 @@
 package defaults;
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -41,7 +40,8 @@ public class PingOutline extends JFrame {
 	private int fixedIPStartrd;
 	@SuppressWarnings("unused")
 	private int fixedIPEndrd;
-
+	private double pgindex = 0.0;
+	private double indextmp = 0.0;
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public PingOutline() {
 		super("Network Scanner");
@@ -291,7 +291,7 @@ public class PingOutline extends JFrame {
 				tmp = ipEndTF.getText().substring(0,ipEndTF.getText().lastIndexOf("."));
 				fixedIPEndrd = Integer.parseInt(tmp.substring(tmp.lastIndexOf(".") + 1));
 				fixedIPEndlast = Integer.parseInt(ipEndTF.getText().substring(ipEndTF.getText().lastIndexOf(".") + 1));
-				progressBar.setIndeterminate(true);
+				progressBar.setValue((int)Math.round(pgindex));
 				toolbar2.remove(startButton);
 				toolbar2.add(stopButton);
 				jTable.repaint();
@@ -316,7 +316,6 @@ public class PingOutline extends JFrame {
 					}
 					
 				});
-
 				//ping, TTL, Hostname Thread start
 				new Thread(() -> {
 						
