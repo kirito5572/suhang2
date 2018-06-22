@@ -303,7 +303,7 @@ public class PingOutline extends JFrame {
 						stats[i][j] = null;
 					}
 				}
-				
+				indextmp=(100.0/(fixedIPEndlast-fixedIPStartlast));
 				
 				jTable.getColumnModel().getColumn(0).setCellRenderer(new TableCellRenderer() {
 
@@ -333,12 +333,14 @@ public class PingOutline extends JFrame {
 							pg[i] = new Pinging(fixedIP +(i), msg);
 							pg[i].start();
 							jTable.repaint();
-							
+							pgindex = pgindex + indextmp;
+							System.out.println(pgindex);
+							progressBar.setValue((int)Math.round(pgindex));
 							if (Thread.activeCount() > 3) {
 								jTable.repaint();
 								threadStatusLabel.setText("Threads: " + (Thread.activeCount()-3));
 							}
-							
+							progressBar.setValue((int)Math.round(pgindex));
 						}
 						currentStatusLabel.setText("Waiting for result");
 						statusmainPanel.repaint();
