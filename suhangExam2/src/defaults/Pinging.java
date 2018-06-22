@@ -12,10 +12,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JTable;
 
 public class Pinging extends Thread {
 
@@ -40,6 +38,7 @@ public class Pinging extends Thread {
 		this.ip = ip;
 		this.msg = msg;
 	}
+	@SuppressWarnings("static-access")
 	@Override
 	public void run() {
 		JLabel questionLabel = new JLabel(ip);
@@ -101,6 +100,7 @@ public class Pinging extends Thread {
 						e1.printStackTrace();
 					}
 				
+					@SuppressWarnings("unused")
 					int openPorts = 0;
 					for (final Future<ScanResult> f : futures) {
 						try {

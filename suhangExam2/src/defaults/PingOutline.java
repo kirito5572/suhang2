@@ -11,17 +11,8 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.nio.file.FileAlreadyExistsException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -39,15 +30,19 @@ import javax.swing.JToolBar;
 import javax.swing.border.BevelBorder;
 import javax.swing.table.TableCellRenderer;
 
+@SuppressWarnings("serial")
 public class PingOutline extends JFrame {
 
 	private String[] titles;
 	private Object[][] stats;
 	private int fixedIPStartlast;
 	private int fixedIPEndlast;
+	@SuppressWarnings("unused")
 	private int fixedIPStartrd;
+	@SuppressWarnings("unused")
 	private int fixedIPEndrd;
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public PingOutline() {
 		super("Network Scanner");
 
@@ -371,8 +366,7 @@ public class PingOutline extends JFrame {
 					
 					//Ports Thread end
 				jTable.repaint();
-				finishWindow fw = new finishWindow();
-				fw.newScreen();
+				finishWindow.newScreen();
 				}).start();
 				//ping, TTL, Hostname Thread end	
 			}
@@ -395,184 +389,161 @@ public class PingOutline extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		exportAllAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		exportSelectioAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		nextAliveHostAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		nextOpenPortAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		nextDeadHostAction .addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		previousAliveHostAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		previousOpenPortAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		previousDeadHostAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		findAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		showDetailsAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		rescanIpAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		deleteIpAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		copyIpAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		copyDetailsAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		openAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		addCurrentAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		manageFavoriteAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		preferenceAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		fetchersAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		selectionAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		scanStaticsAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		gettingStartedAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		officialWebsiteAction.addActionListener(new ActionListener() {
@@ -592,48 +563,42 @@ public class PingOutline extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		reportAnIssueAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				issueWindow iw = new issueWindow();
-				iw.issueScreen();
+				issueWindow.issueScreen();
 			}
 		});
 		pluginsAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		commandLineUsageAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		checkfornewversionAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		aboutAction.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				notWindow nw = new notWindow();
-				nw.notScreen();
+				notWindow.notScreen();
 			}
 		});
 		ipStartTF.setText(fixedIP + 0);
@@ -650,6 +615,7 @@ public class PingOutline extends JFrame {
 		Object[][] results = new Object[255][titles.length];
 		return results;
 	}
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		PingOutline po = new PingOutline();

@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import java.awt.Dimension;
 import javax.swing.JLabel;
 
+@SuppressWarnings("serial")
 public class notWindow extends JFrame implements KeyListener {
 
 	private JPanel contentPane;

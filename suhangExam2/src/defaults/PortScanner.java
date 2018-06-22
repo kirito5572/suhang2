@@ -5,6 +5,7 @@ import java.util.*;
 import java.util.concurrent.*;
 public class PortScanner {
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) throws InterruptedException, ExecutionException{
 		// TODO Auto-generated method stub
 			final ExecutorService es = Executors.newFixedThreadPool(20);
