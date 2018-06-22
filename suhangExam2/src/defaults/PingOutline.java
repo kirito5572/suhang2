@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.file.FileAlreadyExistsException;
@@ -76,7 +77,7 @@ public class PingOutline extends JFrame {
 		JMenu favoriteMenu = new JMenu("Favorite");
 		JMenu toolsMenu = new JMenu("Tools");
 		JMenu helpMenu = new JMenu("Help");
-
+		
 		menuBar.add(scanMenu);
 		menuBar.add(gotoMenu);
 		menuBar.add(cmdMenu);
@@ -296,13 +297,19 @@ public class PingOutline extends JFrame {
 				tmp = ipEndTF.getText().substring(0,ipEndTF.getText().lastIndexOf("."));
 				fixedIPEndrd = Integer.parseInt(tmp.substring(tmp.lastIndexOf(".") + 1));
 				fixedIPEndlast = Integer.parseInt(ipEndTF.getText().substring(ipEndTF.getText().lastIndexOf(".") + 1));
-				System.out.println(tmp + "," + fixedIPStartrd + fixedIPStartlast + "," + fixedIPEndrd + fixedIPEndlast);
 				progressBar.setIndeterminate(true);
 				toolbar2.remove(startButton);
 				toolbar2.add(stopButton);
 				jTable.repaint();
 				currentStatusLabel.setText("Starting");
 				statusmainPanel.repaint();
+				
+				for(int i = 0; i < 255; i++) {
+					for(int j = 0; j < 5; j++) {
+						stats[i][j] = null;
+					}
+				}
+				
 				
 				jTable.getColumnModel().getColumn(0).setCellRenderer(new TableCellRenderer() {
 
@@ -322,7 +329,7 @@ public class PingOutline extends JFrame {
 						Pinging[] pg = new Pinging[fixedIPEndlast];
 						for (int i = fixedIPStartlast; i < fixedIPEndlast; i++) {
 							Object[] msg = stats[i];
-							currentStatusLabel.setText("Starting" + fixedIP+(i) + "ping");
+							currentStatusLabel.setText("Starting" + fixedIP+(i) + "ping & port");
 							statusmainPanel.repaint();
 							try {
 								Thread.sleep(10);
@@ -334,9 +341,10 @@ public class PingOutline extends JFrame {
 							pg[i].start();
 							jTable.repaint();
 							
-							
-							currentStatusLabel.setText("Port Scan Start: " + fixedIP + (i));
-							statusmainPanel.repaint();
+							if (Thread.activeCount() > 3) {
+								jTable.repaint();
+								threadStatusLabel.setText("Threads: " + (Thread.activeCount()-3));
+							}
 							
 						}
 						currentStatusLabel.setText("Waiting for result");
@@ -364,8 +372,9 @@ public class PingOutline extends JFrame {
 					
 					//Ports Thread end
 				jTable.repaint();
+				finishWindow fw = new finishWindow();
+				fw.newScreen();
 				}).start();
-				
 				//ping, TTL, Hostname Thread end	
 			}
 		});
@@ -381,6 +390,251 @@ public class PingOutline extends JFrame {
 					currentStatusLabel.setText("Ready"); 
 					jTable.repaint();
 				}
+			}
+		});
+		loadFromFileAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		exportAllAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		exportSelectioAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		nextAliveHostAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		nextOpenPortAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		nextDeadHostAction .addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		previousAliveHostAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		previousOpenPortAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		previousDeadHostAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		findAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		showDetailsAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		rescanIpAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		deleteIpAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		copyIpAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		copyDetailsAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		openAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		addCurrentAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		manageFavoriteAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		preferenceAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		fetchersAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		selectionAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		scanStaticsAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		gettingStartedAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		officialWebsiteAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String url_open ="http://github.com/ruby0600/suhang2";
+				try {
+					java.awt.Desktop.getDesktop().browse(java.net.URI.create(url_open));
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		faqAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		reportAnIssueAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				issueWindow iw = new issueWindow();
+				iw.issueScreen();
+			}
+		});
+		pluginsAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		commandLineUsageAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		checkfornewversionAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
+			}
+		});
+		aboutAction.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				notWindow nw = new notWindow();
+				nw.notScreen();
 			}
 		});
 		ipStartTF.setText(fixedIP + 0);

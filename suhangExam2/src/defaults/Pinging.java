@@ -84,50 +84,50 @@ public class Pinging extends Thread {
 		} catch (Exception e) {
 			// TODO: handle exception
 		} finally {
-			if (msg[1] != "[n/a]" || msg[2] != "[n/s]" || msg[3] != "[n/s]") {
-				PortScanner ps = new PortScanner();
-				final ExecutorService es = Executors.newFixedThreadPool(20);
-				final int timeout = 200;
-				final List<Future<ScanResult>> futures = new ArrayList<>();
-				
-				for (int port = 1; port <= 1024; port++) {
-					futures.add(ps.portIsOpen(es, ip, port, timeout));
-				}
-				try {
-					es.awaitTermination(200L, TimeUnit.MICROSECONDS);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			
-				int openPorts = 0;
-				for (final Future<ScanResult> f : futures) {
+			new Thread(() -> {
+				if (msg[1] != "[n/a]" || msg[2] != "[n/s]" || msg[3] != "[n/s]") {
+					PortScanner ps = new PortScanner();
+					final ExecutorService es = Executors.newFixedThreadPool(10);
+					final int timeout = 200;
+					final List<Future<ScanResult>> futures = new ArrayList<>();
+					
+					for (int port = 1; port <= 1024; port++) {
+						futures.add(ps.portIsOpen(es, ip, port, timeout));
+					}
 					try {
-						if (f.get().isOpen()) {
-							openPorts++;
-							msg[4] = (msg[4] == null)?f.get().getPort(): (msg[4].toString() + "," +f.get().getPort());
-						}
-					} catch (InterruptedException | ExecutionException e1) {
+						es.awaitTermination(200L, TimeUnit.MICROSECONDS);
+					} catch (InterruptedException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-				}
-				es.shutdown();
-			} else {
-				msg[4] = "[n/s]";
-			}
-			if(msg[4] == null) {
-				msg[4] = "Nothing";
-			}
-			try {
-				br.close();
 				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+					int openPorts = 0;
+					for (final Future<ScanResult> f : futures) {
+						try {
+							if (f.get().isOpen()) {
+								openPorts++;
+								msg[4] = (msg[4] == null)?f.get().getPort(): (msg[4].toString() + "," +f.get().getPort());
+							}
+						} catch (InterruptedException | ExecutionException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+					es.shutdown();
+				} else {
+					msg[4] = "[n/s]";
+				}
+				if(msg[4] == null) {
+					msg[4] = "Nothing";
+				}
+			}).start();
+		}
+		try {
+			br.close();
 			
-		}		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-
 }
