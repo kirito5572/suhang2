@@ -84,7 +84,7 @@ public class Pinging extends Thread {
 			// TODO: handle exception
 		} finally {
 			new Thread(() -> {
-				if (msg[1] != "[n/a]" || msg[2] != "[n/s]" || msg[3] != "[n/s]") {
+				if (msg[1] != "[n/a]" || msg[2] != "[n/s]") {
 					PortScanner ps = new PortScanner();
 					final ExecutorService es = Executors.newFixedThreadPool(10);
 					final int timeout = 200;

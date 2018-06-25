@@ -357,7 +357,9 @@ public class PingOutline extends JFrame {
 					//Ports Thread start
 					new Thread(() -> {
 						jTable.repaint();
-						progressBar.setIndeterminate(false);
+						pgindex = 0.00;
+						indextmp = 0.00;
+						progressBar.setValue((int)Math.round(pgindex));;
 						toolbar2.remove(stopButton);
 						toolbar2.add(startButton);
 						currentStatusLabel.setText("Ready");
@@ -377,11 +379,15 @@ public class PingOutline extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if (e.getSource() == stopButton) {
-					progressBar.setIndeterminate(false);
+					jTable.repaint();
+					pgindex = 0.00;
+					indextmp = 0.00;
+					progressBar.setValue((int)Math.round(pgindex));;
 					toolbar2.remove(stopButton);
 					toolbar2.add(startButton);
-					currentStatusLabel.setText("Ready"); 
+					currentStatusLabel.setText("Ready");
 					jTable.repaint();
+					Thread.interrupted();
 				}
 			}
 		});
