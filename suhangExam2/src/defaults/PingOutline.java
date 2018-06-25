@@ -334,7 +334,6 @@ public class PingOutline extends JFrame {
 							pg[i].start();
 							jTable.repaint();
 							pgindex = pgindex + indextmp;
-							System.out.println(pgindex);
 							progressBar.setValue((int)Math.round(pgindex));
 							if (Thread.activeCount() > 3) {
 								jTable.repaint();
