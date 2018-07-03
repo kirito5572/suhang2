@@ -22,17 +22,17 @@ public class Pinging extends Thread {
 	private ImageIcon originIcon3 = new ImageIcon(System.getProperty("user.dir") + "\\src\\question-icon.png");
 	private Image originImg3 = originIcon3.getImage();
 	private Image changedImg3 = originImg3.getScaledInstance(12, 12, Image.SCALE_SMOOTH);
-	private ImageIcon questionIcon = new ImageIcon(changedImg3);
+	ImageIcon questionIcon = new ImageIcon(changedImg3);
 			
 	private ImageIcon originIcon4 = new ImageIcon(System.getProperty("user.dir") + "\\src\\Blue-icon.jpg");
 	private Image originImg4= originIcon4.getImage();
 	private Image changedImg4 = originImg4.getScaledInstance(12, 12, Image.SCALE_SMOOTH);
-	private ImageIcon pingYIcon = new ImageIcon(changedImg4);
+	ImageIcon pingYIcon = new ImageIcon(changedImg4);
 	
 	private ImageIcon originIcon5 = new ImageIcon(System.getProperty("user.dir") + "\\src\\Red-icon.jpg");
 	private Image originImg5 = originIcon5.getImage();
 	private Image changedImg5 = originImg5.getScaledInstance(12, 12, Image.SCALE_SMOOTH);
-	private ImageIcon pingNIcon = new ImageIcon(changedImg5);
+	ImageIcon pingNIcon = new ImageIcon(changedImg5);
 	
 	public Pinging(String ip, Object[] msg) {
 		this.ip = ip;
@@ -72,6 +72,8 @@ public class Pinging extends Thread {
 				}
 				
 			}
+			
+			
 			if (msg[1] == null) {
 				msg[1] = "[n/a]";
 				msg[0] = pingNLabel;
