@@ -44,9 +44,4 @@ public class PingTest {
 		
 		return results;
 	}
-
-	public static void main(String[] args) {
-		PingTest pt = new PingTest("10.137.212.103");
-		pt.ResultPing();
-	}
 }

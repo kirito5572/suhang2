@@ -335,19 +335,19 @@ public class PingOutline extends JFrame {
 							jTable.repaint();
 							pgindex = pgindex + indextmp;
 							progressBar.setValue((int)Math.round(pgindex));
-							if (Thread.activeCount() > 3) {
+							if (Thread.activeCount() > 4) {
 								jTable.repaint();
-								threadStatusLabel.setText("Threads: " + (Thread.activeCount()-3));
+								threadStatusLabel.setText("Threads: " + (Thread.activeCount()-4));
 							}
 							progressBar.setValue((int)Math.round(pgindex));
 						}
 						currentStatusLabel.setText("Waiting for result");
 						statusmainPanel.repaint();
-						while (Thread.activeCount() > 3) {
+						while (Thread.activeCount() > 4) {
 							try {
-								Thread.sleep(200);
+								Thread.sleep(100);
 								jTable.repaint();
-								threadStatusLabel.setText("Threads: " + (Thread.activeCount()-3));
+								threadStatusLabel.setText("Threads: " + (Thread.activeCount()-4));
 							} catch (InterruptedException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
