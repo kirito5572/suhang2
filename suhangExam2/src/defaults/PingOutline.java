@@ -1,47 +1,25 @@
 package defaults;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import java.awt.*;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.JToolBar;
-import javax.swing.border.BevelBorder;
-import javax.swing.table.TableCellRenderer;
 
 @SuppressWarnings("serial")
 public class PingOutline extends JFrame {
 
 	private String[] titles;
 	private Object[][] stats;
-	private int fixedIPStartlast;
-	private int fixedIPEndlast;
+	private int ThreadCount = 250;
+	private int fixedIPStartLast;
+	private int fixedIPEndLast;
 	@SuppressWarnings("unused")
-	private int fixedIPStartrd;
+	private int fixedIPStartRD;
 	@SuppressWarnings("unused")
-	private int fixedIPEndrd;
-	private double pgindex = 0.0;
-	private double indextmp = 0.0;
+	private int fixedIPEndRD;
+	private double pgIndex = 0.0;
+	private double indexTmp = 0.0;
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public PingOutline() {
 		super("Network Scanner");
@@ -53,11 +31,13 @@ public class PingOutline extends JFrame {
 		InetAddress ia = null;
 		try {
 			ia = InetAddress.getLocalHost();
+			InetAddress.
 		} catch (UnknownHostException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		myIP = ia.getHostAddress();
+        assert ia != null;
+        myIP = ia.getHostAddress();
 		myHostname = ia.getHostName();
 
 		String fixedIP = myIP.substring(0, myIP.lastIndexOf(".") + 1);
@@ -272,345 +252,166 @@ public class PingOutline extends JFrame {
 		progressBar.setIndeterminate(false);
 
 		// status bar end
-		quitAction.addActionListener(new ActionListener() {
+		quitAction.addActionListener(e -> System.exit(0));
+		startButton.addActionListener(e -> {
+            String tmp;
+            fixedIPStartLast = Integer
+                    .parseInt(ipStartTF.getText().substring(ipStartTF.getText().lastIndexOf(".") + 1));
+            tmp = ipStartTF.getText().substring(0,ipStartTF.getText().lastIndexOf("."));
+            fixedIPStartRD = Integer.parseInt(tmp.substring(tmp.lastIndexOf(".") + 1));
+            tmp = ipEndTF.getText().substring(0,ipEndTF.getText().lastIndexOf("."));
+            fixedIPEndRD = Integer.parseInt(tmp.substring(tmp.lastIndexOf(".") + 1));
+            fixedIPEndLast = Integer.parseInt(ipEndTF.getText().substring(ipEndTF.getText().lastIndexOf(".") + 1));
+            progressBar.setValue((int)Math.round(pgIndex));
+            toolbar2.remove(startButton);
+            toolbar2.add(stopButton);
+            jTable.repaint();
+            currentStatusLabel.setText("Starting");
+            statusmainPanel.repaint();
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		startButton.addActionListener(new ActionListener() {
+            for(int i = 0; i < 255; i++) {
+                for(int j = 0; j < 5; j++) {
+                    stats[i][j] = null;
+                }
+            }
+            indexTmp =(100.0/(fixedIPEndLast - fixedIPStartLast));
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String tmp = null;
-				fixedIPStartlast = Integer
-						.parseInt(ipStartTF.getText().substring(ipStartTF.getText().lastIndexOf(".") + 1));
-				tmp = ipStartTF.getText().substring(0,ipStartTF.getText().lastIndexOf("."));
-				fixedIPStartrd = Integer.parseInt(tmp.substring(tmp.lastIndexOf(".") + 1));
-				tmp = ipEndTF.getText().substring(0,ipEndTF.getText().lastIndexOf("."));
-				fixedIPEndrd = Integer.parseInt(tmp.substring(tmp.lastIndexOf(".") + 1));
-				fixedIPEndlast = Integer.parseInt(ipEndTF.getText().substring(ipEndTF.getText().lastIndexOf(".") + 1));
-				progressBar.setValue((int)Math.round(pgindex));
-				toolbar2.remove(startButton);
-				toolbar2.add(stopButton);
-				jTable.repaint();
-				currentStatusLabel.setText("Starting");
-				statusmainPanel.repaint();
-				
-				for(int i = 0; i < 255; i++) {
-					for(int j = 0; j < 5; j++) {
-						stats[i][j] = null;
-					}
-				}
-				indextmp=(100.0/(fixedIPEndlast-fixedIPStartlast));
-				
-				jTable.getColumnModel().getColumn(0).setCellRenderer(new TableCellRenderer() {
+            jTable.getColumnModel().getColumn(0).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
+            // TODO Auto-generated method stub
+                if (value instanceof JLabel) return (JLabel) value;
+                return null;
+            });
+            //ping, TTL, Hostname Thread start
+            new Thread(() -> {
 
-					@Override
-					public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-							boolean hasFocus, int row, int column) {
-						// TODO Auto-generated method stub
-						if (value instanceof JLabel) return (JLabel) value;
-						return null;
-					}
-					
-				});
-				//ping, TTL, Hostname Thread start
-				new Thread(() -> {
-						
-						Pinging[] pg = new Pinging[fixedIPEndlast];
-						for (int i = fixedIPStartlast; i < fixedIPEndlast; i++) {
-							Object[] msg = stats[i];
-							currentStatusLabel.setText("Starting" + fixedIP+(i) + "ping & port");
-							statusmainPanel.repaint();
-							try {
-								Thread.sleep(10);
-							} catch (InterruptedException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-							pg[i] = new Pinging(fixedIP +(i), msg);
-							pg[i].start();
-							jTable.repaint();
-							pgindex = pgindex + indextmp;
-							progressBar.setValue((int)Math.round(pgindex));
-							if (Thread.activeCount() > 3) {
-								jTable.repaint();
-								threadStatusLabel.setText("Threads: " + (Thread.activeCount()-3));
-							}
-							progressBar.setValue((int)Math.round(pgindex));
-						}
-						currentStatusLabel.setText("Waiting for result");
-						statusmainPanel.repaint();
-						while (Thread.activeCount() > 3) {
-							try {
-								Thread.sleep(200);
-								jTable.repaint();
-								threadStatusLabel.setText("Threads: " + (Thread.activeCount()-3));
-							} catch (InterruptedException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-						}
-						
-					//Ports Thread start
-					new Thread(() -> {
-						jTable.repaint();
-						pgindex = 0.00;
-						indextmp = 0.00;
-						progressBar.setValue((int)Math.round(pgindex));;
-						toolbar2.remove(stopButton);
-						toolbar2.add(startButton);
-						currentStatusLabel.setText("Ready");
-						jTable.repaint();
-					}).start();
-					
-					//Ports Thread end
-				jTable.repaint();
-				finishWindow.newScreen();
-				}).start();
-				//ping, TTL, Hostname Thread end	
-			}
-		});
-		stopButton.addActionListener(new ActionListener() {
+                    Pinging[] pg = new Pinging[fixedIPEndLast];
+                    for (int i = fixedIPStartLast; i < fixedIPEndLast; i++) {
+                        Object[] msg = stats[i];
+                        currentStatusLabel.setText("Starting" + fixedIP+(i) + "ping & port");
+                        statusmainPanel.repaint();
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
+                        pg[i] = new Pinging(fixedIP +(i), msg, ThreadCount);
+                        pg[i].start();
+                        jTable.repaint();
+                        pgIndex = pgIndex + indexTmp;
+                        progressBar.setValue((int)Math.round(pgIndex));
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if (e.getSource() == stopButton) {
-					jTable.repaint();
-					pgindex = 0.00;
-					indextmp = 0.00;
-					progressBar.setValue((int)Math.round(pgindex));;
-					toolbar2.remove(stopButton);
-					toolbar2.add(startButton);
-					currentStatusLabel.setText("Ready");
-					jTable.repaint();
-					Thread.interrupted();
-				}
-			}
-		});
-		loadFromFileAction.addActionListener(new ActionListener() {
+                        if (Thread.activeCount() > 4) {
+                            jTable.repaint();
+                            threadStatusLabel.setText("Threads: " + (Thread.activeCount()-4));
+                        }
+                        while(Thread.activeCount() > ThreadCount) {
+                            try {
+                                Thread.sleep(100);
+                                jTable.repaint();
+                                threadStatusLabel.setText("Threads: " + (Thread.activeCount()-4) + "(MAX)");
+                            } catch (InterruptedException e1) {
+                                // TODO Auto-generated catch block
+                                e1.printStackTrace();
+                            }
+                        }
+                    }
+                    currentStatusLabel.setText("Waiting for result");
+                    statusmainPanel.repaint();
+                    while (Thread.activeCount() > 4) {
+                        try {
+                            while(Thread.activeCount() > ThreadCount) {
+                                try {
+                                    Thread.sleep(100);
+                                    jTable.repaint();
+                                    threadStatusLabel.setText("Threads: " + (Thread.activeCount()-4) + "(MAX)");
+                                } catch (InterruptedException e1) {
+                                    // TODO Auto-generated catch block
+                                    e1.printStackTrace();
+                                }
+                            }
+                            Thread.sleep(100);
+                            jTable.repaint();
+                            threadStatusLabel.setText("Threads: " + (Thread.activeCount()-4));
+                        } catch (InterruptedException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
+                    }
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		exportAllAction.addActionListener(new ActionListener() {
+                //Ports Thread start
+                new Thread(() -> {
+                    jTable.repaint();
+                    pgIndex = 0.00;
+                    indexTmp = 0.00;
+                    progressBar.setValue((int)Math.round(pgIndex));
+                    toolbar2.remove(stopButton);
+                    toolbar2.add(startButton);
+                    currentStatusLabel.setText("Ready");
+                    jTable.repaint();
+                }).start();
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		exportSelectioAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		nextAliveHostAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		nextOpenPortAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		nextDeadHostAction .addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		previousAliveHostAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		previousOpenPortAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		previousDeadHostAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		findAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		showDetailsAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		rescanIpAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		deleteIpAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		copyIpAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		copyDetailsAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		openAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		addCurrentAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		manageFavoriteAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		preferenceAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		fetchersAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		selectionAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		scanStaticsAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		gettingStartedAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		officialWebsiteAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String url_open ="http://github.com/ruby0600/suhang2";
-				try {
-					java.awt.Desktop.getDesktop().browse(java.net.URI.create(url_open));
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		faqAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		reportAnIssueAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				issueWindow.issueScreen();
-			}
-		});
-		pluginsAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		commandLineUsageAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		checkfornewversionAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
-		aboutAction.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				notWindow.notScreen();
-			}
-		});
+                //Ports Thread end
+            jTable.repaint();
+            finishWindow.newScreen();
+            }).start();
+            //ping, TTL, Hostname Thread end
+        });
+		stopButton.addActionListener(e -> {
+            // TODO Auto-generated method stub
+            if (e.getSource() == stopButton) {
+                jTable.repaint();
+                pgIndex = 0.00;
+                indexTmp = 0.00;
+                progressBar.setValue((int)Math.round(pgIndex));
+                toolbar2.remove(stopButton);
+                toolbar2.add(startButton);
+                currentStatusLabel.setText("Ready");
+                jTable.repaint();
+            }
+        });
+		loadFromFileAction.addActionListener(e -> notWindow.notScreen());
+		exportAllAction.addActionListener(e -> notWindow.notScreen());
+		exportSelectioAction.addActionListener(e -> notWindow.notScreen());
+		nextAliveHostAction.addActionListener(e -> notWindow.notScreen());
+		nextOpenPortAction.addActionListener(e -> notWindow.notScreen());
+		nextDeadHostAction .addActionListener(e -> notWindow.notScreen());
+		previousAliveHostAction.addActionListener(e -> notWindow.notScreen());
+		previousOpenPortAction.addActionListener(e -> notWindow.notScreen());
+		previousDeadHostAction.addActionListener(e -> notWindow.notScreen());
+		findAction.addActionListener(e -> notWindow.notScreen());
+		showDetailsAction.addActionListener(e -> notWindow.notScreen());
+		rescanIpAction.addActionListener(e -> notWindow.notScreen());
+		deleteIpAction.addActionListener(e -> notWindow.notScreen());
+		copyIpAction.addActionListener(e -> notWindow.notScreen());
+		copyDetailsAction.addActionListener(e -> notWindow.notScreen());
+		openAction.addActionListener(e -> notWindow.notScreen());
+		addCurrentAction.addActionListener(e -> notWindow.notScreen());
+		manageFavoriteAction.addActionListener(e -> notWindow.notScreen());
+		preferenceAction.addActionListener(e -> notWindow.notScreen());
+		fetchersAction.addActionListener(e -> notWindow.notScreen());
+		selectionAction.addActionListener(e -> notWindow.notScreen());
+		scanStaticsAction.addActionListener(e -> notWindow.notScreen());
+		gettingStartedAction.addActionListener(e -> notWindow.notScreen());
+		officialWebsiteAction.addActionListener(e -> {
+            String url_open ="http://github.com/ruby0600/suhang2";
+            try {
+                java.awt.Desktop.getDesktop().browse(java.net.URI.create(url_open));
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
+		faqAction.addActionListener(e -> notWindow.notScreen());
+		reportAnIssueAction.addActionListener(e -> issueWindow.issueScreen());
+		pluginsAction.addActionListener(e -> notWindow.notScreen());
+		commandLineUsageAction.addActionListener(e -> notWindow.notScreen());
+		checkfornewversionAction.addActionListener(e -> notWindow.notScreen());
+		aboutAction.addActionListener(e -> notWindow.notScreen());
 		ipStartTF.setText(fixedIP + 0);
-		fixedIPStartlast = Integer.parseInt(ipStartTF.getText().substring(ipStartTF.getText().lastIndexOf(".") + 1));
+		fixedIPStartLast = Integer.parseInt(ipStartTF.getText().substring(ipStartTF.getText().lastIndexOf(".") + 1));
 		ipEndTF.setText(fixedIP + 255);
-		fixedIPEndlast = Integer.parseInt(ipEndTF.getText().substring(ipEndTF.getText().lastIndexOf(".") + 1));
+		fixedIPEndLast = Integer.parseInt(ipEndTF.getText().substring(ipEndTF.getText().lastIndexOf(".") + 1));
 		hostNameTF.setText(myHostname);
 		setSize(700, 700);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -618,13 +419,11 @@ public class PingOutline extends JFrame {
 	}
 
 	private Object[][] initializeTable() {
-		Object[][] results = new Object[255][titles.length];
-		return results;
+        return new Object[255][titles.length];
 	}
-	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		PingOutline po = new PingOutline();
-	}
+        new PingOutline();
+    }
 
 }
