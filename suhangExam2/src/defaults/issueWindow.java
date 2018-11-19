@@ -68,7 +68,7 @@ public class issueWindow extends JFrame implements KeyListener {
 		
 		JLabel lblAllIpScan = new JLabel("E-Mail: first43013@gmail.com");
 		panel_2.add(lblAllIpScan);
-		addKeyListener(this);
+		contentPane.addKeyListener(this);
 		okButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

@@ -1,17 +1,56 @@
 package defaults;
-import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import java.awt.*;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Image;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JToolBar;
+import javax.swing.border.BevelBorder;
 
-@SuppressWarnings("serial")
 public class PingOutline extends JFrame {
+
+    private static String[] getLanguageString() {
+        return languageString;
+    }
+
+    private static void setLanguageString(final String[] languageString) {
+        PingOutline.languageString = languageString;
+    }
+
+    private static String[] languageString;
+
+    private static String getWhichLanguage() {
+        return whichLanguage;
+    }
+
+    public static void setWhichLanguage(final String whichLanguage) {
+        PingOutline.whichLanguage = whichLanguage;
+    }
+
+    private static String whichLanguage;
 
 	private String[] titles;
 	private Object[][] stats;
-	private int ThreadCount = 250;
+	static int ThreadCount = 250;
+	static int BetweenThreadMs = 5;
 	private int fixedIPStartLast;
 	private int fixedIPEndLast;
 	@SuppressWarnings("unused")
@@ -20,7 +59,6 @@ public class PingOutline extends JFrame {
 	private int fixedIPEndRD;
 	private double pgIndex = 0.0;
 	private double indexTmp = 0.0;
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public PingOutline() {
 		super("Network Scanner");
 
@@ -31,7 +69,6 @@ public class PingOutline extends JFrame {
 		InetAddress ia = null;
 		try {
 			ia = InetAddress.getLocalHost();
-			InetAddress.
 		} catch (UnknownHostException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -52,7 +89,6 @@ public class PingOutline extends JFrame {
 		JMenu favoriteMenu = new JMenu("Favorite");
 		JMenu toolsMenu = new JMenu("Tools");
 		JMenu helpMenu = new JMenu("Help");
-		
 		menuBar.add(scanMenu);
 		menuBar.add(gotoMenu);
 		menuBar.add(cmdMenu);
@@ -213,7 +249,7 @@ public class PingOutline extends JFrame {
 
 		// Table begin
 
-		titles = new String[] { "IP", "Ping", "TTL", "Hostname", "Ports" };
+		titles = new String[] { "IP", "Ping", "TTL", "Hostname", "Ports" } ;
 		stats = initializeTable();
 
 		JTable jTable = new JTable(stats, titles);
@@ -257,28 +293,30 @@ public class PingOutline extends JFrame {
             String tmp;
             fixedIPStartLast = Integer
                     .parseInt(ipStartTF.getText().substring(ipStartTF.getText().lastIndexOf(".") + 1));
-            tmp = ipStartTF.getText().substring(0,ipStartTF.getText().lastIndexOf("."));
+            tmp = ipStartTF.getText().substring(0, ipStartTF.getText().lastIndexOf("."));
             fixedIPStartRD = Integer.parseInt(tmp.substring(tmp.lastIndexOf(".") + 1));
-            tmp = ipEndTF.getText().substring(0,ipEndTF.getText().lastIndexOf("."));
+            tmp = ipEndTF.getText().substring(0, ipEndTF.getText().lastIndexOf("."));
             fixedIPEndRD = Integer.parseInt(tmp.substring(tmp.lastIndexOf(".") + 1));
             fixedIPEndLast = Integer.parseInt(ipEndTF.getText().substring(ipEndTF.getText().lastIndexOf(".") + 1));
-            progressBar.setValue((int)Math.round(pgIndex));
+            progressBar.setValue((int) Math.round(pgIndex));
             toolbar2.remove(startButton);
             toolbar2.add(stopButton);
             jTable.repaint();
             currentStatusLabel.setText("Starting");
             statusmainPanel.repaint();
 
-            for(int i = 0; i < 255; i++) {
-                for(int j = 0; j < 5; j++) {
+            for (int i = 0; i < 255; i++) {
+                for (int j = 0; j < 5; j++) {
                     stats[i][j] = null;
                 }
             }
-            indexTmp =(100.0/(fixedIPEndLast - fixedIPStartLast));
+            indexTmp = (100.0 / (fixedIPEndLast - fixedIPStartLast));
 
             jTable.getColumnModel().getColumn(0).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
             // TODO Auto-generated method stub
-                if (value instanceof JLabel) return (JLabel) value;
+                if (value instanceof JLabel) {
+                    return (JLabel) value;
+                }
                 return null;
             });
             //ping, TTL, Hostname Thread start
@@ -287,29 +325,29 @@ public class PingOutline extends JFrame {
                     Pinging[] pg = new Pinging[fixedIPEndLast];
                     for (int i = fixedIPStartLast; i < fixedIPEndLast; i++) {
                         Object[] msg = stats[i];
-                        currentStatusLabel.setText("Starting" + fixedIP+(i) + "ping & port");
+                        currentStatusLabel.setText("Starting" + fixedIP + (i) + "ping & port");
                         statusmainPanel.repaint();
                         try {
-                            Thread.sleep(10);
+                            Thread.sleep(BetweenThreadMs);
                         } catch (InterruptedException e1) {
                             // TODO Auto-generated catch block
                             e1.printStackTrace();
                         }
-                        pg[i] = new Pinging(fixedIP +(i), msg, ThreadCount);
+                        pg[i] = new Pinging(fixedIP + (i), msg, ThreadCount);
                         pg[i].start();
                         jTable.repaint();
                         pgIndex = pgIndex + indexTmp;
-                        progressBar.setValue((int)Math.round(pgIndex));
+                        progressBar.setValue((int) Math.round(pgIndex));
 
                         if (Thread.activeCount() > 4) {
                             jTable.repaint();
-                            threadStatusLabel.setText("Threads: " + (Thread.activeCount()-4));
+                            threadStatusLabel.setText("Threads: " + (Thread.activeCount() - 4));
                         }
-                        while(Thread.activeCount() > ThreadCount) {
+                        while (Thread.activeCount() > ThreadCount) {
                             try {
                                 Thread.sleep(100);
                                 jTable.repaint();
-                                threadStatusLabel.setText("Threads: " + (Thread.activeCount()-4) + "(MAX)");
+                                threadStatusLabel.setText("Threads: " + (Thread.activeCount() - 4 + "(MAX)"));
                             } catch (InterruptedException e1) {
                                 // TODO Auto-generated catch block
                                 e1.printStackTrace();
@@ -320,11 +358,11 @@ public class PingOutline extends JFrame {
                     statusmainPanel.repaint();
                     while (Thread.activeCount() > 4) {
                         try {
-                            while(Thread.activeCount() > ThreadCount) {
+                            while (Thread.activeCount() > ThreadCount) {
                                 try {
                                     Thread.sleep(100);
                                     jTable.repaint();
-                                    threadStatusLabel.setText("Threads: " + (Thread.activeCount()-4) + "(MAX)");
+                                    threadStatusLabel.setText("Threads: " + (Thread.activeCount() - 4) + "(MAX)");
                                 } catch (InterruptedException e1) {
                                     // TODO Auto-generated catch block
                                     e1.printStackTrace();
@@ -332,7 +370,8 @@ public class PingOutline extends JFrame {
                             }
                             Thread.sleep(100);
                             jTable.repaint();
-                            threadStatusLabel.setText("Threads: " + (Thread.activeCount()-4));
+                            threadStatusLabel.setText(
+                                    "Threads: " + (Thread.activeCount() - 4));
                         } catch (InterruptedException e1) {
                             // TODO Auto-generated catch block
                             e1.printStackTrace();
@@ -344,7 +383,7 @@ public class PingOutline extends JFrame {
                     jTable.repaint();
                     pgIndex = 0.00;
                     indexTmp = 0.00;
-                    progressBar.setValue((int)Math.round(pgIndex));
+                    progressBar.setValue((int) Math.round(pgIndex));
                     toolbar2.remove(stopButton);
                     toolbar2.add(startButton);
                     currentStatusLabel.setText("Ready");
@@ -363,55 +402,87 @@ public class PingOutline extends JFrame {
                 jTable.repaint();
                 pgIndex = 0.00;
                 indexTmp = 0.00;
-                progressBar.setValue((int)Math.round(pgIndex));
+                progressBar.setValue((int) Math.round(pgIndex));
                 toolbar2.remove(stopButton);
                 toolbar2.add(startButton);
                 currentStatusLabel.setText("Ready");
                 jTable.repaint();
             }
         });
-		loadFromFileAction.addActionListener(e -> notWindow.notScreen());
-		exportAllAction.addActionListener(e -> notWindow.notScreen());
-		exportSelectioAction.addActionListener(e -> notWindow.notScreen());
-		nextAliveHostAction.addActionListener(e -> notWindow.notScreen());
-		nextOpenPortAction.addActionListener(e -> notWindow.notScreen());
-		nextDeadHostAction .addActionListener(e -> notWindow.notScreen());
-		previousAliveHostAction.addActionListener(e -> notWindow.notScreen());
-		previousOpenPortAction.addActionListener(e -> notWindow.notScreen());
-		previousDeadHostAction.addActionListener(e -> notWindow.notScreen());
-		findAction.addActionListener(e -> notWindow.notScreen());
-		showDetailsAction.addActionListener(e -> notWindow.notScreen());
-		rescanIpAction.addActionListener(e -> notWindow.notScreen());
-		deleteIpAction.addActionListener(e -> notWindow.notScreen());
-		copyIpAction.addActionListener(e -> notWindow.notScreen());
-		copyDetailsAction.addActionListener(e -> notWindow.notScreen());
-		openAction.addActionListener(e -> notWindow.notScreen());
-		addCurrentAction.addActionListener(e -> notWindow.notScreen());
-		manageFavoriteAction.addActionListener(e -> notWindow.notScreen());
-		preferenceAction.addActionListener(e -> notWindow.notScreen());
-		fetchersAction.addActionListener(e -> notWindow.notScreen());
-		selectionAction.addActionListener(e -> notWindow.notScreen());
-		scanStaticsAction.addActionListener(e -> notWindow.notScreen());
-		gettingStartedAction.addActionListener(e -> notWindow.notScreen());
+		loadFromFileAction.addActionListener(
+		        e -> notWindow.notScreen());
+		exportAllAction.addActionListener(
+		        e -> notWindow.notScreen());
+		exportSelectioAction.addActionListener(
+		        e -> notWindow.notScreen());
+		nextAliveHostAction.addActionListener(
+		        e -> notWindow.notScreen());
+		nextOpenPortAction.addActionListener(
+		        e -> notWindow.notScreen());
+		nextDeadHostAction .addActionListener(
+		        e -> notWindow.notScreen());
+		previousAliveHostAction.addActionListener(
+		        e -> notWindow.notScreen());
+		previousOpenPortAction.addActionListener(
+		        e -> notWindow.notScreen());
+		previousDeadHostAction.addActionListener(
+		        e -> notWindow.notScreen());
+		findAction.addActionListener(
+		        e -> notWindow.notScreen());
+		showDetailsAction.addActionListener(
+		        e -> notWindow.notScreen());
+		rescanIpAction.addActionListener(
+		        e -> notWindow.notScreen());
+		deleteIpAction.addActionListener(
+		        e -> notWindow.notScreen());
+		copyIpAction.addActionListener(
+		        e -> notWindow.notScreen());
+		copyDetailsAction.addActionListener(
+		        e -> notWindow.notScreen());
+		openAction.addActionListener(
+		        e -> notWindow.notScreen());
+		addCurrentAction.addActionListener(
+		        e -> notWindow.notScreen());
+		manageFavoriteAction.addActionListener(
+		        e -> notWindow.notScreen());
+		preferenceAction.addActionListener(
+		        e -> preferenceWindow.preferenceScreen());
+		fetchersAction.addActionListener(
+		        e -> notWindow.notScreen());
+		selectionAction.addActionListener(
+		        e -> notWindow.notScreen());
+		scanStaticsAction.addActionListener(
+		        e -> notWindow.notScreen());
+		gettingStartedAction.addActionListener(
+		        e -> notWindow.notScreen());
 		officialWebsiteAction.addActionListener(e -> {
-            String url_open ="http://github.com/ruby0600/suhang2";
+            String url_Open = "http://github.com/ruby0600/suhang2";
             try {
-                java.awt.Desktop.getDesktop().browse(java.net.URI.create(url_open));
+                java.awt.Desktop.getDesktop().
+                        browse(java.net.URI.create(url_Open));
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         });
-		faqAction.addActionListener(e -> notWindow.notScreen());
-		reportAnIssueAction.addActionListener(e -> issueWindow.issueScreen());
-		pluginsAction.addActionListener(e -> notWindow.notScreen());
-		commandLineUsageAction.addActionListener(e -> notWindow.notScreen());
-		checkfornewversionAction.addActionListener(e -> notWindow.notScreen());
-		aboutAction.addActionListener(e -> notWindow.notScreen());
+		faqAction.addActionListener(
+		        e -> notWindow.notScreen());
+		reportAnIssueAction.addActionListener(
+		        e -> issueWindow.issueScreen());
+		pluginsAction.addActionListener(
+		        e -> notWindow.notScreen());
+		commandLineUsageAction.addActionListener(
+                        e -> notWindow.notScreen());
+		checkfornewversionAction.addActionListener(
+                        e -> notWindow.notScreen());
+		aboutAction.addActionListener(
+		        e -> notWindow.notScreen());
 		ipStartTF.setText(fixedIP + 0);
-		fixedIPStartLast = Integer.parseInt(ipStartTF.getText().substring(ipStartTF.getText().lastIndexOf(".") + 1));
+		fixedIPStartLast = Integer.parseInt(ipStartTF.getText().
+                substring(ipStartTF.getText().lastIndexOf(".") + 1));
 		ipEndTF.setText(fixedIP + 255);
-		fixedIPEndLast = Integer.parseInt(ipEndTF.getText().substring(ipEndTF.getText().lastIndexOf(".") + 1));
+		fixedIPEndLast = Integer.parseInt(ipEndTF.getText().
+                substring(ipEndTF.getText().lastIndexOf(".") + 1));
 		hostNameTF.setText(myHostname);
 		setSize(700, 700);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -421,7 +492,7 @@ public class PingOutline extends JFrame {
 	private Object[][] initializeTable() {
         return new Object[255][titles.length];
 	}
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		// TODO Auto-generated method stub
         new PingOutline();
     }

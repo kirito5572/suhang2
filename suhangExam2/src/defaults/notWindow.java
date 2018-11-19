@@ -69,7 +69,7 @@ public class notWindow extends JFrame implements KeyListener {
 		
 		JLabel lblAllIpScan = new JLabel("This feature is not implemented yet.");
 		panel_2.add(lblAllIpScan);
-		addKeyListener(this);
+		contentPane.addKeyListener(this);
 		okButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
