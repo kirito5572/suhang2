@@ -2,20 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="71324dcc-b9b2-433b-aa53-479676880034" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/defaults/LanguageChangeClass.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/defaults/errorCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/defaults/errorWindow.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/defaults/preferenceWindowKeyEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/defaults/PingOutline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/defaults/PingOutline.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/defaults/PortScanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/defaults/PortScanner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/defaults/finishWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/defaults/finishWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/defaults/issueWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/defaults/issueWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/defaults/notWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/defaults/notWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/defaults/preferenceWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/defaults/preferenceWindow.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/bin/" />
@@ -43,8 +30,8 @@
       <file leaf-file-name="PingOutline.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/defaults/PingOutline.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
-              <caret line="52" column="35" selection-start-line="52" selection-start-column="35" selection-end-line="52" selection-end-column="35" />
+            <state relative-caret-position="-380">
+              <caret line="39" column="38" lean-forward="true" selection-start-line="39" selection-start-column="38" selection-end-line="39" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -55,7 +42,7 @@
       <file leaf-file-name="LanguageChangeClass.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/defaults/LanguageChangeClass.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="38">
+            <state relative-caret-position="57">
               <caret line="3" column="37" selection-start-line="3" selection-start-column="37" selection-end-line="3" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -64,11 +51,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="preferenceWindow.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="preferenceWindow.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/defaults/preferenceWindow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="95" column="49" selection-start-line="95" selection-start-column="49" selection-end-line="95" selection-end-column="49" />
+            <state relative-caret-position="1102">
+              <caret line="79" column="41" selection-start-line="79" selection-start-column="41" selection-end-line="79" selection-end-column="41" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -76,11 +63,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="errorWindow.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="errorWindow.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/defaults/errorWindow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1292">
-              <caret line="74" column="37" selection-start-line="74" selection-start-column="37" selection-end-line="74" selection-end-column="37" />
+            <state relative-caret-position="304">
+              <caret line="19" column="24" lean-forward="true" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -91,8 +78,8 @@
       <file leaf-file-name="errorCode.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/defaults/errorCode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="3" column="33" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="33" />
+            <state>
+              <caret column="17" lean-forward="true" selection-start-column="17" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -157,6 +144,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -180,8 +169,6 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -303,21 +290,21 @@
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5007553" side_tool="true" weight="0.32744783" />
       <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32905295" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49924472" weight="0.32744783" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32905295" />
       <window_info anchor="bottom" id="CheckStyle" order="7" weight="0.32744783" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.29305136" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.30664653" />
       <window_info anchor="bottom" id="Tail" order="7" />
       <window_info id="Learn" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
       <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39967898" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="7" weight="0.32744783" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -699,27 +686,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/defaults/errorCode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="3" column="33" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/defaults/errorWindow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1292">
-          <caret line="74" column="37" selection-start-line="74" selection-start-column="37" selection-end-line="74" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/defaults/PingOutline.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="52" column="35" selection-start-line="52" selection-start-column="35" selection-end-line="52" selection-end-column="35" />
+        <state relative-caret-position="-380">
+          <caret line="39" column="38" lean-forward="true" selection-start-line="39" selection-start-column="38" selection-end-line="39" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -728,7 +698,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/defaults/LanguageChangeClass.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
+        <state relative-caret-position="57">
           <caret line="3" column="37" selection-start-line="3" selection-start-column="37" selection-end-line="3" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -738,8 +708,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/defaults/preferenceWindow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="95" column="49" selection-start-line="95" selection-start-column="49" selection-end-line="95" selection-end-column="49" />
+        <state relative-caret-position="1102">
+          <caret line="79" column="41" selection-start-line="79" selection-start-column="41" selection-end-line="79" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/defaults/errorCode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="17" lean-forward="true" selection-start-column="17" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/defaults/errorWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="19" column="24" lean-forward="true" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
